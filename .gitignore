@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-electron/
+release/
+release-*/
+native-audio-host/build/
+*.log
+*.pfx
+*.p12
+.env
+.env.*
+.vite/
+coverage/
+pixelmind-ai/

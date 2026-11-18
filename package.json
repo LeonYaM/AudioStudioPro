@@ -1,0 +1,113 @@
+{
+  "name": "audio-studio-pro",
+  "version": "1.0.0",
+  "description": "AUDIO STUDIO PRO - Estación de trabajo de audio digital profesional para Windows",
+  "main": "dist-electron/main/main.js",
+  "author": "Audio Studio Pro Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build:renderer": "vite build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "build": "npm run build:renderer && npm run build:electron",
+    "start": "npm run build && electron .",
+    "test": "vitest run",
+    "dist:win": "npm run build && electron-builder --win"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.11",
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
+    "lucide-react": "^0.487.0",
+    "onnxruntime-node": "^1.31.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sql.js": "^1.13.0",
+    "wavesurfer.js": "^7.9.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/sql.js": "^1.4.9",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^35.1.5",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2",
+    "vitest": "^3.0.9"
+  },
+  "build": {
+    "appId": "com.audiostudiopro.daw",
+    "productName": "AUDIO STUDIO PRO",
+    "directories": {
+      "output": "release"
+    },
+    "fileAssociations": [
+      {
+        "ext": "aspro",
+        "name": "Audio Studio Pro Project",
+        "description": "Proyecto de AUDIO STUDIO PRO",
+        "role": "Editor",
+        "icon": "build/icon.ico"
+      }
+    ],
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json",
+      "!node_modules/ffmpeg-static/ffmpeg.exe",
+      "!node_modules/ffprobe-static/bin/win32/x64/ffprobe.exe",
+      "!node_modules/ffprobe-static/bin/win32/ia32/**"
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://updates.audiostudiopro.local/win"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/ffmpeg-static/ffmpeg.exe",
+        "to": "bin/ffmpeg.exe"
+      },
+      {
+        "from": "node_modules/ffprobe-static/bin/win32/x64/ffprobe.exe",
+        "to": "bin/ffprobe.exe"
+      },
+      {
+        "from": "node_modules/sql.js/dist/sql-wasm.wasm",
+        "to": "bin/sql-wasm.wasm"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "AUDIO_STUDIO_PRO_${version}_${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AUDIO STUDIO PRO",
+      "artifactName": "AUDIO_STUDIO_PRO_SETUP.exe"
+    },
+    "portable": {
+      "artifactName": "AUDIO_STUDIO_PRO_PORTABLE.exe"
+    }
+  }
+}
